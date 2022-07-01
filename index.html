@@ -19,7 +19,7 @@
             <div class="col-md-2" id="dropdown"> 
                 <div class="well">
                     <p>Test Subject ID No.:</p> 
-                    <select id="selDataset" onchange="init(this.value)"></select>
+                    <select id="selDataset" onchange="update(this.value)"></select>
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -31,14 +31,16 @@
             </div>
             <div class="col-md-5" id="bar">
             </div>
-            <div class="col-md-5" id="gauge">
+            <div class="col-md-5">
+                <h3 style="font-weight: bold; text-align:center ;">Belly Button Washing Frequency</h3>
+                <div id="gauge"></div>
             </div>
         </div>
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-12" id="bubble">
             </div>
         </div>
     </div>
-    <script src="plots.js"></script>
+    <script src="plots2.js"></script>
 </body>
 </html>
