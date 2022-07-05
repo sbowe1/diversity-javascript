@@ -90,6 +90,7 @@ function bubble(sampleID) {
     });
 }
 
+
 // Gauge
 function gauge(sampleID) {
     d3.json('data/samples.json').then(data => {
@@ -97,32 +98,52 @@ function gauge(sampleID) {
 
         let filterMeta = metadata.filter(sampleName => sampleName.id == sampleID)[0];
 
+        console.log(filterMeta.wfreq);
+
+        let degrees = -180 - (180/9)*filterMeta.wfreq; radius = 0.225;
+        let radians = degrees * Math.PI/180;
+        let x = radius * Math.cos(radians) + 0.5;
+        let y = radius * Math.sin(radians) + 0.5;
+
         let dataGauge = [{
-            domain: {x: [0, 1], y: [0, 1]},
-            value: filterMeta.wfreq,
-            gauge: {
-                steps: [
-                    {range: [0, 1], text: '0-1'},
-                    {range: [1, 2], text: '1-2'},
-                    {range: [2, 3], text: '2-3'},
-                    {range: [3, 4], text: '3-4'},
-                    {range: [4, 5], text: '4-5'},
-                    {range: [5, 6], text: '5-6'},
-                    {range: [6, 7], text: '6-7'},
-                    {range: [7, 8], text: '7-8'},
-                    {range: [8, 9], text: '8-9'}, 
-                ]
+            type: 'pie',
+            showlegend: false,
+            hole: 0.4,
+            rotation: 90,
+            values: [50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50/9, 50],
+            text: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', ''],
+            direction: 'clockwise',
+            textinfo: 'text',
+            textposition: 'inside',
+            marker: {
+                colors: ['#ffffff', '#ddf9e6', '#bbf3cd', '#99edb5', '#76e89c', '#54e283', '#32dc6a', '#22c457', '#1ca248', 'white']
             },
-            type: 'indicator',
-            mode: 'gauge'
+            labels: ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', ''],
+            hoverinfo: 'none'
         }];
+    
         let layout = {
+            shapes: [{
+                type: 'line',
+                x0: 0.5,
+                y0: 0.5,
+                x1: x, 
+                y1: y,
+                line: {
+                    color: 'red', 
+                    width: 4
+                },
+            }],
             title: 'Scrubs per Week',
-            height: '100%'
+            xaxis: {visible: true},
+            yaxis: {visible: true}
         };
+
         Plotly.newPlot('gauge', dataGauge, layout);
-    })
+    });
 }
+
+
 
 // Initial
 function init(choice) {
@@ -149,4 +170,3 @@ function update(choice) {
 
 // Update when changing dropdown ID
 dropdown.on('change', update);
-
